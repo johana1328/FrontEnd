@@ -19,7 +19,7 @@
                   placeholder="Usuario"
                   autocomplete="username"
                   invalidFeedback="Este es un campo obligatorio y debe tener al menos 5 caracteres"
-                  v-model.trim="tarea.usuario"
+                  v-model.trim="credenciales.usuario"
                             
                   >
                     <template #prepend-content><CIcon name="cil-user"/></template>
@@ -32,7 +32,7 @@
                     placeholder="Contraseña"
                     autocomplete="new-password"
                     invalidFeedback="Contraseña requerida que contenga al menos: número, letra mayúscula y minúscula, 8 caracteres"
-                    v-model="tarea.password"
+                    v-model="credenciales.password"
                   
                 >
                     <template #prepend-content><CIcon name="cil-lock-locked"/></template>
@@ -78,11 +78,13 @@
 <script>
 import { validationMixin } from "vuelidate"
 import { required, minLength, email } from "vuelidate/lib/validators"
+import api from "../clientes/api/api.js";
+
 export default {
     name:"Login",
     data(){
       return{
-        tarea:{
+        credenciales:{
             password:'',
             usuario:''
             
@@ -115,8 +117,12 @@ export default {
 
     methods:{
       procesarLogin(){
-         console.log(this.tarea),
-         this.$router.push('Dashboard')
+         let body={user:this.credenciales.usuario, password:this.credenciales.password}
+         console.log(this.credenciales);
+         api.post('/gestion-usuario/login',body).then(response =>{
+           console.log(response);
+           this.$router.push('Dashboard')
+         });
       },
      
       checkIfValid (fieldName) {
