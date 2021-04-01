@@ -5,10 +5,13 @@ import Router from 'vue-router'
 const login = () => import('@/views/Login');
 const error404 = () => import('@/views/error/Error404');
 const error500 = () => import('@/views/error/Error500');
-const home = () => import('@/views/layout/Container');
+const container = () => import('@/views/layout/Container');
 
 //Vistas Administrador
-const admin = () => import('@/views/admin/Admin');
+const dashboard = () => import('@/views/admin/Dashboard');
+const solicitudBusqued = () => import('@/views/solicitud/SolicitudBusquedad');
+const serie = () => import('@/views/gestionDocumental/Serie');
+
 
 //Vistas del candidato
 const registroCandidato = () => import('@/views/candidato/Registro');
@@ -23,12 +26,22 @@ export default new Router({
         {
             path:'/',
             name: 'Home',
-            component: home, 
+            component: container, 
             children: [
                 {
-                  path: '/admin',
-                  name: 'Admin',
-                  component: admin
+                  path: '/dashboard',
+                  name: 'Dashboard',
+                  component: dashboard
+                },
+                {
+                    path: '/solicitudBusqueda',
+                    name:'Solicitud Busqueda',
+                    component: solicitudBusqued
+                },
+                {
+                    path:'/serie',
+                    name:'Serie',
+                    component: serie
                 }
             ]
         },

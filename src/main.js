@@ -6,6 +6,7 @@ import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store'
 import api from "./clientes/api/api.js";
 
+
 Vue.config.productionTip = false;
 Vue.prototype.$http = api; 
 Vue.use(CoreuiVue);
