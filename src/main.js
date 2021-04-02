@@ -49,7 +49,7 @@ error => {
         case 403:
           router.replace({
             path: "/login",
-            query: { redirect: router.currentRoute.fullPath }
+            query: { errorAutenticate: "err" }
           });
            break;
         case 404:
