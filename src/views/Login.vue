@@ -12,7 +12,7 @@
                   <p class="text-muted">Iniciar sesión en su cuenta</p>
 
                            <CAlert v-if="error" show color="danger">
-                          Danger Alert with <a href="#" class="alert-link">an example link</a>.
+                         Error: <a href="#" class="alert-link">usuario o contraseña invalida</a>.
                           </CAlert>
                   <CInput
                    label="Usuario"
@@ -129,7 +129,7 @@ export default {
             this.$router.push('Dashboard');
          }).catch((error) => {
                 if(error.status==403){
-                  console.log("usuario y contrasena ");           
+                  error= true;           
                 }
            });
       },
