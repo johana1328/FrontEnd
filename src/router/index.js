@@ -11,7 +11,7 @@ const container = () => import('@/views/layout/Container');
 const dashboard = () => import('@/views/admin/Dashboard');
 const solicitudBusqued = () => import('@/views/solicitud/SolicitudBusquedad');
 const serie = () => import('@/views/gestionDocumental/Serie');
-
+const prueba= () => import('@/views/admin/AdvancedForms');
 
 //Vistas del candidato
 const registroCandidato = () => import('@/views/candidato/Registro');
@@ -42,6 +42,10 @@ export default new Router({
                     path:'/serie',
                     name:'Serie',
                     component: serie
+                },{
+                    path:'/prueba',
+                    name:'prueba',
+                    component: prueba
                 }
             ]
         },

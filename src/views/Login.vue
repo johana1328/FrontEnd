@@ -6,14 +6,13 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm @submit.prevent=" procesarLogin" > 
-                   
-                  <h1>Iniciar Sesión</h1>
+                 <h1>Iniciar Sesión</h1>
                   <p class="text-muted">Iniciar sesión en su cuenta</p>
 
                            <CAlert v-if="error" show color="danger">
                          Error: <a href="#" class="alert-link">usuario o contraseña invalida</a>.
                           </CAlert>
+                <CForm> 
                   <CInput
                    label="Usuario"
                   :lazy="false"
@@ -22,7 +21,7 @@
                   placeholder="Usuario"
                   autocomplete="username"
                   invalidFeedback="Este es un campo obligatorio y debe tener al menos 5 caracteres"
-                  v-model.trim="credenciales.usuario"
+                 
                             
                   >
                     <template #prepend-content><CIcon name="cil-user"/></template>
@@ -35,7 +34,7 @@
                     placeholder="Contraseña"
                     autocomplete="new-password"
                     invalidFeedback="Contraseña requerida que contenga al menos: número, letra mayúscula y minúscula, 8 caracteres"
-                    v-model="credenciales.password"
+                   
                   
                 >
                     <template #prepend-content><CIcon name="cil-lock-locked"/></template>
@@ -80,23 +79,26 @@
 
 <script>
 import { validationMixin } from "vuelidate"
-import { required, minLength, email } from "vuelidate/lib/validators"
+import { required, minLength,email } from "vuelidate/lib/validators"
 import api from "../clientes/api/api.js";
 
 export default {
     name:"Login",
     data(){
       return{
+        form: this.getEmptyForm(),
         error:false,
+        submitted: false,
         credenciales:{
             password:'',
             usuario:''
             
         },
-        form: this.getEmptyForm(),
+        
       }
     }, 
     computed: {
+    formString () { return JSON.stringify(this.form, null, 4) },
     isValid () { return !this.$v.form.$invalid },
     isDirty () { return this.$v.form.$anyDirty },
   
@@ -111,8 +113,7 @@ export default {
             },
           userName: {
             required,
-            email,
-          
+            email
           },
         }
   },
@@ -129,13 +130,15 @@ export default {
             this.$router.push('Dashboard');
          }).catch((error) => {
                 if(error.status==403){
-                  error= true;           
+                  this.error= true;           
                 }
            });
       },
      
       checkIfValid (fieldName) {
-     const field = this.$v.form[fieldName]
+        const field = this.$v.form[fieldName]
+        console.log(field);
+     
      if (!field.$dirty) {
        return null
      }
@@ -157,8 +160,8 @@ export default {
     },
    getEmptyForm () {
       return {
-        Password: "",
-        Usuario:""
+        password: "",
+        userName:""
        
       }
     }
