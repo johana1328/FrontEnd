@@ -20,8 +20,8 @@
                   :isValid="checkIfValid('userName')"
                   placeholder="Usuario"
                   autocomplete="username"
-                  invalidFeedback="Este es un campo obligatorio y debe tener al menos 5 caracteres"
-                 
+                  invalidFeedback="Este es un campo obligatorio "
+                  v-model.trim="credenciales.usuario"
                             
                   >
                     <template #prepend-content><CIcon name="cil-user"/></template>
@@ -33,8 +33,8 @@
                     type="password"
                     placeholder="Contraseña"
                     autocomplete="new-password"
-                    invalidFeedback="Contraseña requerida que contenga al menos: número, letra mayúscula y minúscula, 8 caracteres"
-                   
+                    invalidFeedback="Contraseña requerida , 4 caracteres"
+                    v-model="credenciales.password"
                   
                 >
                     <template #prepend-content><CIcon name="cil-lock-locked"/></template>
@@ -108,7 +108,7 @@ export default {
         form:{
           password: {
               required,
-              minLength: minLength(8)
+              minLength: minLength(4)
             
             },
           userName: {
