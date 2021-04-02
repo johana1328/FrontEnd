@@ -6,11 +6,14 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-             
                 <CForm @submit.prevent=" procesarLogin" > 
                    
                   <h1>Iniciar Sesión</h1>
                   <p class="text-muted">Iniciar sesión en su cuenta</p>
+
+                           <CAlert v-if="error" show color="danger">
+                          Danger Alert with <a href="#" class="alert-link">an example link</a>.
+                          </CAlert>
                   <CInput
                    label="Usuario"
                   :lazy="false"
@@ -84,6 +87,7 @@ export default {
     name:"Login",
     data(){
       return{
+        error:false,
         credenciales:{
             password:'',
             usuario:''
