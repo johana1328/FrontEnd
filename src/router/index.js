@@ -42,10 +42,6 @@ export default new Router({
                     path:'/serie',
                     name:'Serie',
                     component: serie
-                },{
-                    path:'/prueba',
-                    name:'prueba',
-                    component: prueba
                 }
             ]
         },
