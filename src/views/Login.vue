@@ -94,8 +94,6 @@ export default {
             
         },
         form: this.getEmptyForm(),
-      
-       
       }
     }, 
     computed: {
@@ -120,13 +118,20 @@ export default {
   },
 
     methods:{
+      errorMensages(){
+        console.log("Error al autenticar");
+      },
       procesarLogin(){
          let body={user:this.credenciales.usuario, password:this.credenciales.password}
-         console.log(this.credenciales);
-         api.post('/gestion-usuario/login',body).then(response =>{
-           console.log(response);
-           this.$router.push('Dashboard')
-         });
+         api.post('/gestion-usuario/login',body)
+         .then(response =>{
+            localStorage.Authorization = response.data.token;
+            this.$router.push('Dashboard');
+         }).catch((error) => {
+                if(error.status==403){
+                  console.log("usuario y contrasena ");           
+                }
+           });
       },
      
       checkIfValid (fieldName) {
