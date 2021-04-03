@@ -16,29 +16,31 @@
   <CDataTable
       :items="listaUsuarios"
       :fields="fieldsImput"
-      :items-per-page="2"
-      :active-page="1"
+      :items-per-page="filterOptions.pageSize"
       :loading="loading"
        hover
        sorter
        border
        striped
-       outlined
-       cleaner 
+       outlined 
     >
+     <template #estado="{item}">
+        <td>
+            {{item.estado=='USACT'?'ACTIVO':'INACTIVO'}}
+          
+        </td>
+      </template>
     <template #acciones="{item}">
         <td>
             {{item.id}}
           <CButton
                color="danger"
-                :name="brandName"
                 size="sm"
                 :key="key"
               >
                 <CIcon size="sm" name="cil-trash"/>
             </CButton>
             <CButton
-                :name="brandName"
                 class="ml-1"
                 size="sm"
                 :key="key"
@@ -71,36 +73,43 @@ export default {
     data () {
         return {
             listaUsuarios:[],
-            sorterValue: { column: null, asc: true },
-            tableFilterValue: '',
-            columnFilterValue: {},
             loading: false,
             activePage: 1,
              pages: 5,
-             fieldsImput
+             fieldsImput,
+             filterOptions:{
+               pageSize:5
+             }
         }
     },
-    method:{
+    methods:{
       onTableChange () {
       this.loading = true;
-      console.log(123)
-    }
+      this.consultarUsuarios();
     },
-    mounted(){
-        api.get("/gestion-usuario/usuario?pageSize=2&pageKey=1")
+      consultarUsuarios(){
+         api.get("/gestion-usuario/usuario",{
+              params:{
+                pageSize:this.filterOptions.pageSize,
+                pageKey:this.activePage}    
+        })
            .then(response => {
-                console.log(response)
+               this.pages=response.data.pageTotal;
+               console.log(response.data)
                this.listaUsuarios=response.data.data;
+                this.loading = false;
            }).catch(error => {
-               console.log(error);
+               console.log(error); 
            });
+      }
+    },
+    mounted: function(){ 
+       this.consultarUsuarios()
     },
     computed: {
     reloadParams () {
+      console.log(this.activePage);
       return [  
-        this.sorterValue,
-        this.columnFilterValue,
-        this.tableFilterValue,
         this.activePage
       ]
     }, csvContent () {
@@ -113,7 +122,7 @@ export default {
     watch: { 
     reloadParams () {
       this.onTableChange()
-    }
+    } 
   }
   
 }
