@@ -42,7 +42,7 @@
                 class="ml-1"
                 size="sm"
                 :key="key"
-                 color="info"
+                 color="primary"
               >
                 <CIcon size="sm" name="cil-pencil"/>
             </CButton>

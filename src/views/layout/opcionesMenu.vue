@@ -3,7 +3,7 @@ export default{
     name:'nav',
     computed:{
         siderbarItems(){
-           let perfiles = ["EMPLEADO"]
+         // let perfiles = ["GERENTE_RRHH"]
             let menu = new Array();
             let menunav={
                  _name: 'CSidebarNav',
@@ -22,6 +22,13 @@ export default{
                      _name:'CSidebarNavItem',
                      name:'Documentación',
                      to:'/gestionDocumental/documentacion'
+                 },
+                 {
+                     
+                     _name:'CSidebarNavItem',
+                     name:'Usuario',
+                     to:'/gestionUsuario/usuario'
+                 
                  }
                  
                  ]
@@ -45,7 +52,12 @@ export default{
               {
                   name:'Entrevista',
                   to:'/seleccion/entrevista'
-              }]
+              },
+              {
+                    name: 'Candidato',
+                    to:'/seleccion/candidato'
+                }
+              ]
             }
           
 
@@ -84,7 +96,7 @@ export default{
                      to:'/parametria/serie'
                  }]
             }
-             if(perfiles == 'ANALISTA'){
+             /*if(perfiles == 'ANALISTA'){
                  let candidato = {
                     name: 'Candidato',
                     to:'/seleccion/candidato'
@@ -112,16 +124,17 @@ export default{
                      name:'Usuario',
                      to:'/gestionUsuario/usuario'
                  }
-            menunav._children.push(seleccion,solicitud,parametria,usuario)
-            menu.push(menunav);
+        
 
-            }
+            }*/
 
-            if(perfiles == 'EMPLEADO'){
+           /* if(perfiles == 'EMPLEADO'){
                   menunav._children.push(solicitud)
                     menu.push(menunav);
-            }
+            }*/
 
+            menunav._children.push(seleccion,solicitud,parametria)
+            menu.push(menunav);
             
             return menu;
         }
