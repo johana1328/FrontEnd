@@ -6,7 +6,7 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                  <CForm  @submit.prevent=" procesarLogin"> 
+                  <CForm  @submit.prevent="procesarLogin"> 
                  <h1>Iniciar Sesión</h1>
                   <p class="text-muted">Iniciar sesión en su cuenta</p>
 
@@ -45,8 +45,7 @@
                       <CButton 
                      class="ml-1"  
                     color="info " 
-                    :disabled="isValid"
-                    @click="validate"
+                    @click="submit"
                     type="submit"
                       >Ingresar</CButton>
                     </CCol>
@@ -127,7 +126,7 @@ export default {
          let body={user:this.credenciales.usuario, password:this.credenciales.password}
          api.post('/gestion-usuario/login',body)
          .then(response =>{
-            localStorage.Authorization = response.data.token;
+            localStorage.access_token = response.data.token;
             this.$router.push('Dashboard');
          }).catch((error) => {
                 if(error.status==403){
