@@ -3,7 +3,7 @@
     <div>
    
         
-    <CButton color="info" @click="infoModal = true" class="mr-1">
+    <CButton color="primary" @click="infoModal = true" class="mr-1">
       Nuevo
      </CButton>
 
@@ -11,7 +11,7 @@
     <!-- Modal Component -->
     <CModal
       title="Serie"
-      color="info"
+      color="primary"
       :show.sync="infoModal"
     >
       <CForm>
@@ -29,8 +29,8 @@
                 
       </CForm>
       <template #footer>
-        <CButton @click="infoModal = false" color="danger">Cancelar</CButton>
-        <CButton @click="infoModal = false" color="info">Guardar</CButton>
+        <CButton @click=" primaryModal = false" color="danger">Cancelar</CButton>
+        <CButton @click="primaryModal = false" color="primary">Guardar</CButton>
       </template>
 
     </CModal>
