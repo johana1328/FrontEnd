@@ -110,7 +110,7 @@ export default {
       return 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
     }
     },
-    watch: {
+    watch: { 
     reloadParams () {
       this.onTableChange()
     }
