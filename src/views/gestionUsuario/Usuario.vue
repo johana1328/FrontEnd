@@ -16,16 +16,15 @@
   <CDataTable
       :items="listaUsuarios"
       :fields="fieldsImput"
-       table-filter
+      :items-per-page="2"
+      :active-page="1"
+      :loading="loading"
        hover
        sorter
        border
        striped
        outlined
-       cleaner
-      :items-per-page="2"
-      :active-page="1"
-      :loading="loading"
+       cleaner 
     >
     <template #acciones="{item}">
         <td>
@@ -84,6 +83,7 @@ export default {
     method:{
       onTableChange () {
       this.loading = true;
+      console.log(123)
     }
     },
     mounted(){
