@@ -16,7 +16,6 @@
   <CDataTable
       :items="listaUsuarios"
       :fields="fieldsImput"
-       pagination
        table-filter
        hover
        sorter
@@ -26,7 +25,6 @@
        cleaner
       :items-per-page="2"
       :active-page="1"
-      pages="3"
       :loading="loading"
     >
     <template #acciones="{item}">
