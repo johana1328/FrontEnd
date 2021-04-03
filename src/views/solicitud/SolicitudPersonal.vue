@@ -1,39 +1,42 @@
 <template>
  <div>
       <CCard >
-  <form-wizard  next-button-text="Siguiente" title="" subtitle="" color="#264985" shape="circle" step-size="xs">
+          <CCardHeader>
+           <h3>Solicitud de Personal</h3> 
+          </CCardHeader>
+  <form-wizard  next-button-text="Siguiente" back-button-text="Devolver" finish-button-text="Guardar" title="" subtitle="" color="#264985" shape="circle" step-size="xs">
     <tab-content title="Información de perfil">
          <CForm >
        
              <CCardBody >
           <CRow>
                <CCol sm="6" >
-                    <CInput class="col-sm-3"
+                    <CInput class="col-sm-8"
                   label="Área Solicitante"
                   placeholder=""
                 />
-                  <CSelect
+                  <CSelect class="col-sm-8"
                 label="Perfil Solicitado"
                 :options="options"
                 placeholder="Seleccione"
               />
-                <CInput 
+                <CInput class="col-sm-8"
                   label="Especialidad"
                   placeholder=""
                 />
       
                </CCol>
                 <CCol sm="6">
-                <CInput
+                <CInput class="col-sm-8"
                   label="Experencia mínima requerida en años"
                   placeholder=""
                 />
-                  <CInput
+                  <CInput class="col-sm-8"
                   label="Funcionalidad ha realizar"
                   placeholder=""
                 />
              
-                     <CSelect
+                     <CSelect class="col-sm-8"
                 label="Escolaridad"
                 :options="options3"
                 placeholder="Seleccione"
@@ -54,48 +57,48 @@
         <CForm>
         <CCardBody>
             <CRow>
-            <CCol  sm="4">
-                <CInput
+            <CCol  sm="6">
+                <CInput class="col-sm-10"
                 label="Cliente"
                 placeholder=""
               />
-               <CInput
+               <CInput class="col-sm-10"
                 label="Responsable cliente"
                 placeholder=""              
               />
-            <CInput
+            <CInput class="col-sm-10"
                 label="Fecha Esperada de Inicio de Labores"
                 type="date"              
               />
-               <CInput
+               <CInput class="col-sm-10"
                 label="Salario asignado"
                 placeholder=""              
               />
-               <CInput
+               <CInput class="col-sm-10"
                 label="Cantidad de personal para la vacante"
                 placeholder=""
               />
               
             </CCol>
-            <CCol sm="4">
-                 <CInput
+            <CCol sm="6">
+                 <CInput class="col-sm-10"
                   label="Tipo de contrato"
                   placeholder=""
                 />
-                    <CSelect
+                    <CSelect class="col-sm-10"
                 label="Grupo de ambientación"
                 :options="options2"
                 placeholder="Seleccione"
               />
-                 <CInput
+                 <CInput class="col-sm-10"
                   label="Área de trabajo"
                   placeholder=""
                 />
-                  <CInput
+                  <CInput class="col-sm-10"
                   label="Número de horas a pagar a Cmc"
                   placeholder=""
                 />
-                 <CInput
+                 <CInput class="col-sm-10"
                   label="Tarifa"
                   placeholder=""
                 />

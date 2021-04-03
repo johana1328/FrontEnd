@@ -19,7 +19,7 @@
         viewBox="0 0 110 134"
       />
     </CSidebarBrand>
-     <CRenderFunction flat :contentToRender="$options.nav"/>
+     <CRenderFunction flat :contentToRender="siderbarItems"/>
     <CSidebarMinimizer 
       class="c-d-md-down-none" 
       @click.native="$store.commit('toggle', 'sidebarMinimize')"
@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import nav from './nav'
+import siderbarItems from './opcionesMenu'
 export default {
-   nav,
+   extends: siderbarItems,
 computed: {
     show () {
       return this.$store.state.sidebarShow 
