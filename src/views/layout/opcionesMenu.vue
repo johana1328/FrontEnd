@@ -3,7 +3,7 @@ export default{
     name:'nav',
     computed:{
         siderbarItems(){
-           //let perfiles = ["GERENTE"]
+           let perfiles = ["EMPLEADO"]
             let menu = new Array();
             let menunav={
                  _name: 'CSidebarNav',
@@ -22,12 +22,8 @@ export default{
                      _name:'CSidebarNavItem',
                      name:'Documentación',
                      to:'/gestionDocumental/documentacion'
-                 },
-                 {
-                     _name:'CSidebarNavItem',
-                     name:'Usuario',
-                     to:'/gestionUsuario/usuario'
                  }
+                 
                  ]
             }
             let seleccion={
@@ -43,10 +39,6 @@ export default{
                 to: '/seleccion/pruebaPsicotecnica'
               },
               {
-                  name:'Candidatos',
-                  to:'/candidato/Registro'
-              },
-              {
                   name:'Procesos',
                   to:'/seleccion/proceso'
               },
@@ -55,6 +47,7 @@ export default{
                   to:'/seleccion/entrevista'
               }]
             }
+          
 
             let solicitud = {
             _name: 'CSidebarNavDropdown',
@@ -91,10 +84,44 @@ export default{
                      to:'/parametria/serie'
                  }]
             }
-            menunav._children.push(seleccion,solicitud,parametria)
+             if(perfiles == 'ANALISTA'){
+                 let candidato = {
+                    name: 'Candidato',
+                    to:'/seleccion/candidato'
+                }
+                let usuario = {
+                     _name:'CSidebarNavItem',
+                     name:'Usuario',
+                     to:'/gestionUsuario/usuario'
+                 }
+                 seleccion.items.push(candidato)
+                menunav._children.push(usuario,seleccion,solicitud,)
+                menu.push(menunav)
+            }
+           
+
+            
+            if(perfiles == 'GERENTE'){
+               menunav._children.push(seleccion,solicitud)
+               menu.push(menunav)
+            }
+
+            if(perfiles == 'GERENTE_RRHH'){
+                let usuario = {
+                     _name:'CSidebarNavItem',
+                     name:'Usuario',
+                     to:'/gestionUsuario/usuario'
+                 }
+            menunav._children.push(seleccion,solicitud,parametria,usuario)
             menu.push(menunav);
 
-  
+            }
+
+            if(perfiles == 'EMPLEADO'){
+                  menunav._children.push(solicitud)
+                    menu.push(menunav);
+            }
+
             
             return menu;
         }
