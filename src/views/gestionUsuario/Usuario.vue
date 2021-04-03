@@ -23,8 +23,7 @@
        sorter
        border
        striped
-       outlined
-       cleaner 
+       outlined 
     >
     <template #acciones="{item}">
         <td>
