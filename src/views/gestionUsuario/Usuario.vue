@@ -4,92 +4,135 @@
       Lista de usuarios
     </CCardHeader>
     
-<CCardBody>
-    <CButton
-      color="primary"
-      class="mb-2"
-      :href="csvCode" 
-      download="coreui-table-data.csv"
-      target="_blank"
-    >
-      Descargar
-    </CButton>
-          <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
-            Buscar
+      <CCardBody>
+           <CButton color="primary" @click="infoModal = true" class="mr-1">
+            Nuevo
           </CButton>
-          <CCol col="12" md="6">
+          <CButton @click="collapse = !collapse" color="primary"  class="mr-1">
+               Buscar/ Reporte
+          </CButton>
+          <CForm>
+           <CCol col="12" md="8">
           <CCollapse :show="collapse" :duration="400">
-            <CCard bodyWrapper >
-              <CCardBody>
-                 <CRow>
-                  <CCol sm="6" >
-              <CInput class="col-sm-10"
-                  label="Nombre"
-                  placeholder=""
-                />
-                  </CCol>
-                 <CCol sm="6" >
-                 <CInput class="col-sm-10"
-                  label="Estado"
-                  placeholder=""
-                />
-          </CCol>
-           </CRow>
-          
-              </CCardBody>
-             <CCardFooter align="right">
-               <CButton @click="collapse = !collapse" color="danger" class="ml-2 mb-2">
-                   Cancelar
-              </CButton>
-               <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
-               Buscar
-               </CButton>
-             </CCardFooter>
-            </CCard>
+           <CCard bodyWrapper >
+           <CCardBody>
              
-          </CCollapse>
-          </CCol>
+                 <CRow>
+                   
+                    <CCol sm="6" >
+                     <CInput class="col-sm-10"
+                        label="Nombre"
+                        placeholder=""
+                        v-model="filtro.nombre"
+                        
+                      />
+                     </CCol>
+                    <CCol sm="6" >
+                      <CSelect class="col-sm-10"
+                       label="Estado"
+                       :options="options"
+                        placeholder="Seleccione"
+                        v-model="filtro.estado"
+                        />
+                      
+                    </CCol>
+                 </CRow>
+                 </CCardBody>
+                  <CCardFooter align="right">
+                    <CButton @click="collapse = !collapse" color="danger" class="ml-2 mb-2">
+                          Cancelar
+                    </CButton>
+                    <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
+                          Buscar
+                    </CButton>
+                     <CButton color="secondary"  class="ml-2 mb-2" :href="csvCode" download="coreui-table-data.csv" target="_blank" >
+                        Descargar
+                       </CButton>
+                  </CCardFooter>
+                  </CCard>
+                  
+                </CCollapse>
+                </CCol>
+                 </CForm>
+               
+          
+            <CModal
+              title="Usuario"
+              color="primary"
+              :show.sync="infoModal"
+            >
+              <CForm>
+                <CRow >
+                  <CCol sm="6" >
+                  <CInput 
+                          label="Nombre"
+                          placeholder=""
+                        />
+                        <CInput
+                          label="Nombre"
+                          placeholder=""
+                        />
+                  </CCol>
+                        <CCol sm="6" >
+                       <CInput
+                          label="Nombre"
+                          placeholder=""
+                        />
+                        <CInput
+                          label="Nombre"
+                          placeholder=""
+                        />
+                  </CCol>
+                  </CRoW>
+              </CForm>
+              <template #footer>
+                <CButton @click=" primaryModal = false" color="danger">Cancelar</CButton>
+                <CButton @click="primaryModal = false" color="primary">Guardar</CButton>
+              </template>
 
-  <CDataTable
-      :items="listaUsuarios"
-      :fields="fieldsImput"
-      :items-per-page="2"
-      :active-page="1"
-      :loading="loading"
-       hover
-       sorter
-       border
-       striped
-       outlined 
-    >
-    <template #acciones="{item}">
-        <td>
-            {{item.id}}
-          <CButton
-               color="danger"
-                :name="brandName"
-                size="sm"
-                :key="key"
-              >
-                <CIcon size="sm" name="cil-trash"/>
-            </CButton>
-            <CButton
-                :name="brandName"
-                class="ml-1"
-                size="sm"
-                :key="key"
-                 color="primary"
-              >
-                <CIcon size="sm" name="cil-pencil"/>
-            </CButton>
-        </td>
-      </template>
-    </CDataTable>
-    <CPagination
-      v-show="pages > 1"
-      :pages="pages"
-      :active-page.sync="activePage"
-    />
+            </CModal>
+<br/>
+        <CDataTable
+            :items="listaUsuarios"
+            :fields="fieldsImput"
+            :items-per-page="2"
+            :active-page="1"
+            :loading="loading"
+            hover
+            sorter
+            border
+            striped
+            outlined 
+          >
+      
+          <template #acciones="{item}">
+              <td>
+                  {{item.id}}
+                <CButton
+                    color="danger"
+                      :name="brandName"
+                      size="sm"
+                      :key="key"
+                    >
+                      <CIcon size="sm" name="cil-trash"/>
+                  </CButton>
+                  <CButton class="ml-1"
+                      size="sm"
+                      :key="key"
+                      color="primary"
+                      @click="infoModal = true" 
+                      
+                    >
+                      <CIcon size="sm" name="cil-pencil"/>
+                  </CButton>
+              </td>
+            </template>
+          </CDataTable>
+          <CPagination
+            v-show="pages > 1"
+            :pages="pages"
+            :active-page.sync="activePage"
+          />
    </CCardBody>
    </CCard>
 </template>
@@ -117,6 +160,13 @@ export default {
             collapse: false,
             cardCollapse: true,
             innerCollapse: false,
+            infoModal: false,
+            primaryModal: false,
+            options: ['Activo','Desactivo'],
+            filtro:{
+              nombre:'',
+              estado:''
+            }
         }
     },
     method:{
