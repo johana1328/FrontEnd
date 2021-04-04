@@ -3,180 +3,31 @@
     <CCardHeader>
       Lista de usuarios
     </CCardHeader>
-    
-      <CCardBody>
-           <CButton color="primary" @click="infoModal = true" class="mr-1">
-            Nuevo
-          </CButton>
-          <CButton @click="collapse = !collapse" color="primary"  class="mr-1">
-               Buscar/ Reporte
-          </CButton>
-          <CForm>
-           <CCol col="12" md="8">
-          <CCollapse :show="collapse" :duration="400">
-           <CCard bodyWrapper >
-           <CCardBody>
-             
-                 <CRow>
-                   
-                    <CCol sm="6" >
-                     <CInput class="col-sm-10"
-                        label="Nombre"
-                        placeholder=""
-                        v-model="filtro.nombre"
-                        
-                      />
-                     </CCol>
-                    <CCol sm="6" >
-                      <CSelect class="col-sm-10"
-                       label="Estado"
-                       :options="options"
-                        placeholder="Seleccione"
-                        v-model="filtro.estado"
-                        />
-                      
-                    </CCol>
-                 </CRow>
-                 </CCardBody>
-                  <CCardFooter align="right">
-                    <CButton @click="collapse = !collapse" color="danger" class="ml-2 mb-2">
-                          Cancelar
-                    </CButton>
-                    <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
-                          Buscar
-                    </CButton>
-                     <CButton color="secondary"  class="ml-2 mb-2" :href="csvCode" download="coreui-table-data.csv" target="_blank" >
-                        Descargar
-                       </CButton>
-                  </CCardFooter>
-                  </CCard>
-                  
-                </CCollapse>
-                </CCol>
-                 </CForm>
-               
-          
-            <CModal
-              title="Usuario"
-              color="primary"
-              :show.sync="infoModal"
-            >
-              <CForm>
-                <CRow >
-                  <CCol sm="6" >
-                      <CInput 
-                          label="Id Usuario"
-                          placeholder=""
-                        />
-                        <CInput
-                          label="Correo Electronico"
-                          placeholder=""
-                        />
-                         <CInput
-                          label="Area"
-                          placeholder=""
-                        />
-                         <CSelect class="col-sm-10"
-                       label="Perfil"
-                       :options="options2"
-                        placeholder="Seleccione"
-                       
-                        />
-                       
-                  </CCol>
-                        <CCol sm="6" >
-                          <CInput 
-                          label="Nombres"
-                          placeholder=""
-                        />
-                       <CInput
-                          label="Apellidos"
-                          placeholder=""
-                        />
-                        
-                         <CInput
-                          label="Jefe"
-                          placeholder=""
-                        />
-                          <CSelect class="col-sm-10"
-                       label="Estado"
-                       :options="options"
-                        placeholder="Seleccione"
-                       
-                        />
-                  </CCol>
-                  </CRoW>
-              </CForm>
-              <template #footer>
-                <CButton @click=" primaryModal = false" color="danger">Cancelar</CButton>
-                <CButton @click="primaryModal = false" color="primary">Guardar</CButton>
-              </template>
-
-            </CModal>
-<br/>
-        <CDataTable
-            :items="listaUsuarios"
-            :fields="fieldsImput"
-            :items-per-page="2"
-            :active-page="1"
-            :loading="loading"
-            hover
-            sorter
-            border
-            striped
-            outlined 
-          >
-      
-          <template #acciones="{item}">
-              <td>
-                  {{item.id}}
-                <CButton
-                    color="danger"
-                      :name="brandName"
-                      size="sm"
-                      :key="key"
-                    >
-                      <CIcon size="sm" name="cil-trash"/>
-                  </CButton>
-                  <CButton class="ml-1"
-                      size="sm"
-                      :key="key"
-                      color="primary"
-                      @click="infoModal = true" 
-                      
-                    >
-                      <CIcon size="sm" name="cil-pencil"/>
-                  </CButton>
-              </td>
-            </template>
-          </CDataTable>
-          <CPagination
-            v-show="pages > 1"
-            :pages="pages"
-            :active-page.sync="activePage"
+    <CCardBody>
+        <Table
+          archivo="Reporteusuario" 
+          :lista="listaUsuarios"
+          :fields="['nombres','apellidos','correoElectronico','estado','jefe','acciones']"
+          @updateClick="openModalModif"
           />
-   </CCardBody>
+    </CCardBody>
    </CCard>
 </template>
 
 <script>
 import api from "../../clientes/api/api.js";
-const fieldsImput=[
-    {key: 'nombres'},
-    {key: 'apellidos'},
-    {key: 'correoElectronico'},
-    {key: 'estado' },
-     {key: 'acciones',  _style:'width:2%'}
-]
+import Table from "../../components/Table"
+
 export default {
+   components:{
+     Table
+   },
     data () {
         return {
             listaUsuarios:[],
             loading: false,
             activePage: 1,
-            pages: 5,
             pageSize:2,
-            fieldsImput,
             collapse: false,
             cardCollapse: true,
             innerCollapse: false,
@@ -203,6 +54,9 @@ export default {
         }
     },
     methods:{
+      openModalModif(item){
+          alert(item.nombres);
+      },
       reporte: async function(){
          let content=[];
         let response= await api.get("/gestion-usuario/usuario/reporte");
@@ -217,7 +71,7 @@ export default {
       consultarUsuarios(){
          api.get("/gestion-usuario/usuario",{
               params:{
-                pageSize:this.pageSize,
+                pageSize:7,
                 pageKey:this.activePage}    
         })
            .then(response => {
@@ -232,26 +86,9 @@ export default {
     },
     mounted: function(){ 
        this.consultarUsuarios()
-    },
-    computed: {
-    reloadParams () {
-      return [  
-        this.activePage
-      ]
-    }, csvContent:function() {
-     let data= this.reporte();
-      return data.map(item => Object.values(item).join(',')).join('\n')
-    },
-    csvCode () {
-      return 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
-    },
-    watch: { 
-    reloadParams () {
-      this.onTableChange()
-    } 
-  }
+    }
   
-}}
+}
 </script>
 
 <style>
