@@ -3,7 +3,11 @@ export default{
     name:'nav',
     computed:{
         siderbarItems(){
-         // let perfiles = ["GERENTE_RRHH"]
+            let token= localStorage.access_token;
+            let tokenArray=token.split(".");
+            let perfilesSecode=decodeURIComponent(escape(window.atob( tokenArray[1])));
+            let perfilesObj=JSON.parse(perfilesSecode);
+            let perfiles = perfilesObj.authorities;
             let menu = new Array();
             let menunav={
                  _name: 'CSidebarNav',
@@ -22,71 +26,57 @@ export default{
                      _name:'CSidebarNavItem',
                      name:'Documentación',
                      to:'/gestionDocumental/documentacion'
-                 },
-                 {
-                     
-                     _name:'CSidebarNavItem',
-                     name:'Usuario',
-                     to:'/gestionUsuario/usuario'
-                 
-                 }
-                 
-                 ]
+                 }]
             }
+             
+            let solicitud = {
+                _name: 'CSidebarNavDropdown',
+                name: 'Solicitud',
+                route: '/solicitud',
+                items:[{
+                    name:'Permisos',
+                     to:'/solicitud/permiso'
+                },
+                {
+                    name:'Vacaciones',
+                    to:'/solicitud/vacaciones'
+                },
+                {
+                    name:'Incapacidad',
+                    to:'/solicitud/incapacidad'
+                },
+                {
+                    name:'Certificaciones',
+                    to:'/solicitud/certificaciones'
+                }]
+            }
+            
             let seleccion={
-            _name: 'CSidebarNavDropdown',
-            name: 'Selección',
-            route: '/seleccion',
-            items: [{
-                name: 'Prueba técnica',
-                to: '/seleccion/pruebaTecnica'
-              },
-              {
-                name: 'Prueba Psicotécnica',
-                to: '/seleccion/pruebaPsicotecnica'
-              },
-              {
-                  name:'Procesos',
-                  to:'/seleccion/proceso'
-              },
-              {
+                _name: 'CSidebarNavDropdown',
+                name: 'Selección',
+                route: '/seleccion',
+                items: [{
+                    name: 'Prueba técnica',
+                    to: '/seleccion/pruebaTecnica'
+                },
+                {
+                    name: 'Prueba Psicotécnica',
+                    to: '/seleccion/pruebaPsicotecnica'
+                },
+                {
+                    name:'Procesos',
+                    to:'/seleccion/proceso'
+                },
+                {
                   name:'Entrevista',
                   to:'/seleccion/entrevista'
-              },
-              {
+                },
+                {
                     name: 'Candidato',
                     to:'/seleccion/candidato'
                 }
               ]
             }
-          
-
-            let solicitud = {
-            _name: 'CSidebarNavDropdown',
-            name: 'Solicitud',
-            route: '/solicitud',
-            items:[{
-                name:'Permisos',
-                to:'/solicitud/permiso'
-            },
-            {
-                name:'Vacaciones',
-                to:'/solicitud/vacaciones'
-            },
-            {
-                name:'Solicitud Personal',
-                to:'/solicitud/solicitudPersonal'
-            },
-            {
-                name:'Incapacidad',
-                to:'/solicitud/incapacidad'
-            },
-            {
-                name:'Certificaciones',
-                to:'/solicitud/certificaciones'
-            }]
-            }
-
             let parametria={
                  _name: 'CSidebarNavDropdown',
                  name: 'Parametria',
@@ -96,47 +86,44 @@ export default{
                      to:'/parametria/serie'
                  }]
             }
-             /*if(perfiles == 'ANALISTA'){
-                 let candidato = {
+
+            let candidato = {
                     name: 'Candidato',
                     to:'/seleccion/candidato'
                 }
-                let usuario = {
+
+            let usuario = {
                      _name:'CSidebarNavItem',
                      name:'Usuario',
                      to:'/gestionUsuario/usuario'
                  }
-                 seleccion.items.push(candidato)
-                menunav._children.push(usuario,seleccion,solicitud,)
-                menu.push(menunav)
-            }
-           
 
-            
-            if(perfiles == 'GERENTE'){
+           if(perfiles.includes('EMPLEADO')){
+                  menunav._children.push(solicitud)
+                  menu.push(menunav);
+                  return menu;
+            }
+
+             if(perfiles.includes('ANALISTA_RRHH')){
+                seleccion.items.push(candidato)
+                menunav._children.push(usuario,seleccion,solicitud)
+                menu.push(menunav)
+                return menu;
+            }
+
+            if(perfiles.includes('GERENTE')){
                menunav._children.push(seleccion,solicitud)
                menu.push(menunav)
+               return menu;
             }
 
-            if(perfiles == 'GERENTE_RRHH'){
-                let usuario = {
-                     _name:'CSidebarNavItem',
-                     name:'Usuario',
-                     to:'/gestionUsuario/usuario'
-                 }
-        
-
-            }*/
-
-           /* if(perfiles == 'EMPLEADO'){
-                  menunav._children.push(solicitud)
-                    menu.push(menunav);
-            }*/
-
-            menunav._children.push(seleccion,solicitud,parametria)
-            menu.push(menunav);
-            
-            return menu;
+            if(perfiles.includes('GERENTE_RRHH')){
+                seleccion.items.push(candidato)
+               menunav._children.push(usuario,seleccion,solicitud,parametria)
+               menu.push(menunav);
+                return menu;  
+            }
+             return menu; 
         }
     }
 }
