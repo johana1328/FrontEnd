@@ -64,23 +64,45 @@
               <CForm>
                 <CRow >
                   <CCol sm="6" >
-                  <CInput 
-                          label="Nombre"
+                      <CInput 
+                          label="Id Usuario"
                           placeholder=""
                         />
                         <CInput
-                          label="Nombre"
+                          label="Correo Electronico"
                           placeholder=""
                         />
+                         <CInput
+                          label="Area"
+                          placeholder=""
+                        />
+                         <CSelect class="col-sm-10"
+                       label="Perfil"
+                       :options="options2"
+                        placeholder="Seleccione"
+                       
+                        />
+                       
                   </CCol>
                         <CCol sm="6" >
-                       <CInput
-                          label="Nombre"
+                          <CInput 
+                          label="Nombres"
                           placeholder=""
                         />
-                        <CInput
-                          label="Nombre"
+                       <CInput
+                          label="Apellidos"
                           placeholder=""
+                        />
+                        
+                         <CInput
+                          label="Jefe"
+                          placeholder=""
+                        />
+                          <CSelect class="col-sm-10"
+                       label="Estado"
+                       :options="options"
+                        placeholder="Seleccione"
+                       
                         />
                   </CCol>
                   </CRoW>
@@ -163,9 +185,22 @@ export default {
             infoModal: false,
             primaryModal: false,
             options: ['Activo','Desactivo'],
+            options2: ['Analista_RHH','Gerente_RRHH','Gerente','Director','Evaluador'],
             filtro:{
               nombre:'',
               estado:''
+            },
+            informUsuario:{
+              idUsuario:'',
+              nombre:'',
+              apellido:'',
+              correoElectro:'',
+              area:'',
+              jefe:'',
+              perfil:'',
+              estado:'',
+
+
             }
         }
     },
