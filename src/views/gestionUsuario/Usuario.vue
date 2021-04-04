@@ -3,6 +3,7 @@
     <CCardHeader>
       Lista de usuarios
     </CCardHeader>
+    
 <CCardBody>
     <CButton
       color="primary"
@@ -13,6 +14,42 @@
     >
       Descargar
     </CButton>
+          <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
+            Buscar
+          </CButton>
+          <CCol col="12" md="6">
+          <CCollapse :show="collapse" :duration="400">
+            <CCard bodyWrapper >
+              <CCardBody>
+                 <CRow>
+                  <CCol sm="6" >
+              <CInput class="col-sm-10"
+                  label="Nombre"
+                  placeholder=""
+                />
+                  </CCol>
+                 <CCol sm="6" >
+                 <CInput class="col-sm-10"
+                  label="Estado"
+                  placeholder=""
+                />
+          </CCol>
+           </CRow>
+          
+              </CCardBody>
+             <CCardFooter align="right">
+               <CButton @click="collapse = !collapse" color="danger" class="ml-2 mb-2">
+                   Cancelar
+              </CButton>
+               <CButton @click="collapse = !collapse" color="primary" class="ml-2 mb-2">
+               Buscar
+               </CButton>
+             </CCardFooter>
+            </CCard>
+             
+          </CCollapse>
+          </CCol>
+
   <CDataTable
       :items="listaUsuarios"
       :fields="fieldsImput"
@@ -75,8 +112,11 @@ export default {
             columnFilterValue: {},
             loading: false,
             activePage: 1,
-             pages: 5,
-             fieldsImput
+            pages: 5,
+            fieldsImput,
+            collapse: false,
+            cardCollapse: true,
+            innerCollapse: false,
         }
     },
     method:{
