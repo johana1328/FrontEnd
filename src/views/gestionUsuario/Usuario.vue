@@ -153,6 +153,7 @@ export default {
             loading: false,
             activePage: 1,
             pages: 5,
+            pageSize:2,
             fieldsImput,
             collapse: false,
             cardCollapse: true,
@@ -167,6 +168,13 @@ export default {
         }
     },
     methods:{
+      reporte: async function(){
+         let content=[];
+        let response= await api.get("/gestion-usuario/usuario/reporte");
+        content=response.data.map(item => Object.values(item).join(',')).join('\n');
+        console.log(response)
+        return content;
+      },
       onTableChange () {
       this.loading = true;
       this.consultarUsuarios();
@@ -174,7 +182,7 @@ export default {
       consultarUsuarios(){
          api.get("/gestion-usuario/usuario",{
               params:{
-                pageSize:this.filterOptions.pageSize,
+                pageSize:this.pageSize,
                 pageKey:this.activePage}    
         })
            .then(response => {
@@ -192,16 +200,15 @@ export default {
     },
     computed: {
     reloadParams () {
-      console.log(this.activePage);
       return [  
         this.activePage
       ]
-    }, csvContent () {
-      return this.listaUsuarios.map(item => Object.values(item).join(',')).join('\n')
+    }, csvContent:function() {
+     let data= this.reporte();
+      return data.map(item => Object.values(item).join(',')).join('\n')
     },
     csvCode () {
-      return 'data:application/pdf;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
-    }
+      return 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
     },
     watch: { 
     reloadParams () {
@@ -209,7 +216,7 @@ export default {
     } 
   }
   
-}
+}}
 </script>
 
 <style>
