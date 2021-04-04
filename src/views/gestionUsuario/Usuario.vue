@@ -8,7 +8,7 @@
       color="primary"
       class="mb-2"
       :href="csvCode" 
-      download="coreui-table-data.csv"
+      download="coreui-table-data.pdf"
       target="_blank"
     >
       Descargar
@@ -116,7 +116,7 @@ export default {
       return this.listaUsuarios.map(item => Object.values(item).join(',')).join('\n')
     },
     csvCode () {
-      return 'data:text/csv;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
+      return 'data:application/pdf;charset=utf-8,SEP=,%0A' + encodeURIComponent(this.csvContent)
     }
     },
     watch: { 
