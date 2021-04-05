@@ -11,6 +11,7 @@ const container = () => import('@/views/layout/Container');
 const dashboard = () => import('@/views/admin/Dashboard');
 const solicitudBusqued = () => import('@/views/solicitud/SolicitudPersonal');
 const serie = () => import('@/views/parametria/Serie');
+const subserie = () => import('@/views/parametria/SubSerie')
 const perfil = () => import('@/views/perfil/miPerfil');
 const documentacion = () => import('@/views/gestionDocumental/Documentacion');
 const evaluacionDese = () => import('@/views/evaluacionDesempeno/EvaluacionDesempeno');
@@ -48,6 +49,12 @@ export default new Router({
                     path:'/parametria/serie',
                     name:'Serie',
                     component: serie
+                },
+                {
+                    path:'/parametria/subserie',
+                    name:'Subserie',
+                    component: subserie
+                
                 },
                 {
                     path:'/perfil/miPerfil',
