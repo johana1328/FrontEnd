@@ -25,7 +25,7 @@
                     :name="brandName"
                     size="sm"
                     :key="key"
-                    @click="deleteClick(item)">
+                    @click="openmodaldelete(item)">
                     <CIcon size="sm" name="cil-trash"/>
                   </CButton>
                   <CButton class="ml-1"
@@ -37,7 +37,20 @@
                   </CButton>
               </td>
             </template>
-    </CDataTable>   
+    </CDataTable> 
+    <CModal
+      title="Eliminar Registro"
+      color="danger"
+      centered="true"
+      size="sm"
+      :show.sync="warningModal"
+    >
+     <p> Estas seguro de eliminar el registro?</p>
+     <template #footer>
+        <CButton @click="warningModal = false" color="primary">Cancelar</CButton>
+        <CButton @click="deleteClick" color="primary">Aceptar</CButton>
+      </template>
+    </CModal>  
   </CCardBody>
 </template>
 
@@ -47,12 +60,14 @@ export default {
     props: {
         archivo:String,
         lista: Array,
-        fields:Array
+        fields:Array,
+        warningModal:Boolean
     },
     data () {
     return {
       paginacion:5, 
-      currentItems: this.lista.slice()
+      currentItems: this.lista.slice(),
+      itemSelect:{}
     }
   },
   computed: {
@@ -70,13 +85,19 @@ export default {
     updateClick(item){
         this.$emit("updateClick", item);
     },
-    deleteClick(item){
-       this.$emit("deleteClick", item);
+    openmodaldelete(item){
+      this.itemSelect=item;
+      this.warningModal=true;
+    },
+    deleteClick(){
+      this.$emit("deleteClick", this.itemSelect);
     }
   }
 }
 </script>
 
 <style>
-
+.table thead tr th:last-child input {
+  display: none;
+}
 </style>
