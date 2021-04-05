@@ -70,7 +70,7 @@
     </CForm>
      
     </tab-content>
-    <tab-content title="Información Cliente">
+    <tab-content title="Datos Personales">
         <CForm>
         <CCardBody>
             <CRow>

@@ -84,12 +84,17 @@ export default{
                  items:[{
                      name:'Serie',
                      to:'/parametria/serie'
+                 },
+                 {
+                      name:'Subserie',
+                     to:'/parametria/subserie'
+
                  }]
             }
 
             let candidato = {
                     name: 'Candidato',
-                    to:'/seleccion/candidato'
+                    to:'/candidato/Registro'
                 }
 
             let usuario = {
@@ -97,6 +102,10 @@ export default{
                      name:'Usuario',
                      to:'/gestionUsuario/usuario'
                  }
+            let solicitudBusqueda ={
+                     name:'Solicitud Perfil',
+                     to:'/solicitud/SolicitudPersonal'
+            }
 
            if(perfiles.includes('EMPLEADO')){
                   menunav._children.push(solicitud)
@@ -112,6 +121,7 @@ export default{
             }
 
             if(perfiles.includes('GERENTE')){
+               solicitud.items.push(solicitudBusqueda)
                menunav._children.push(seleccion,solicitud)
                menu.push(menunav)
                return menu;
