@@ -4,92 +4,55 @@
       Lista de usuarios
     </CCardHeader>
     <CCardBody>
+        <CButton color="primary" @click="openModalCrear" class="mr-1">
+            Crear
+        </CButton>
         <Table
           archivo="Reporteusuario" 
           :lista="listaUsuarios"
+          :warningModal="false"
           :fields="['nombres','apellidos','correoElectronico','estado','jefe','acciones']"
           @updateClick="openModalModif"
+          @deleteClick="eliminarUsuario"
           />
     </CCardBody>
+    <Crearusuarios  @updateView="consultarUsuarios"   ref="componente" />
    </CCard>
 </template>
 
 <script>
-import api from "../../clientes/api/api.js";
 import Table from "../../components/Table"
-
+import Crearusuarios from './Crearusuarios'
+import usuario from "../../clientes/usuario"
 export default {
    components:{
-     Table
+     Table,
+     Crearusuarios
    },
     data () {
         return {
-            listaUsuarios:[],
-            loading: false,
-            activePage: 1,
-            pageSize:2,
-            collapse: false,
-            cardCollapse: true,
-            innerCollapse: false,
-            infoModal: false,
-            primaryModal: false,
-            options: ['Activo','Desactivo'],
-            options2: ['Analista_RHH','Gerente_RRHH','Gerente','Director','Evaluador'],
-            filtro:{
-              nombre:'',
-              estado:''
-            },
-            informUsuario:{
-              idUsuario:'',
-              nombre:'',
-              apellido:'',
-              correoElectro:'',
-              area:'',
-              jefe:'',
-              perfil:'',
-              estado:'',
-
-
-            }
+            listaUsuarios:[]
         }
     },
     methods:{
       openModalModif(item){
           alert(item.nombres);
       },
-      reporte: async function(){
-         let content=[];
-        let response= await api.get("/gestion-usuario/usuario/reporte");
-        content=response.data.map(item => Object.values(item).join(',')).join('\n');
-        console.log(response)
-        return content;
+      async consultarUsuarios(){
+        this.listaUsuarios= await usuario.getAllUsers();
+        this.loading = false;
       },
-      onTableChange () {
-      this.loading = true;
-      this.consultarUsuarios();
-    },
-      consultarUsuarios(){
-         api.get("/gestion-usuario/usuario",{
-              params:{
-                pageSize:7,
-                pageKey:this.activePage}    
-        })
-           .then(response => {
-               this.pages=response.data.pageTotal;
-               console.log(response.data)
-               this.listaUsuarios=response.data.data;
-                this.loading = false;
-           }).catch(error => {
-               console.log(error); 
-           });
+      async eliminarUsuario(item){
+         await usuario.delteUser(item.id);
+         this.listaUsuarios= await usuario.getAllUsers();
+         this.warningModal= false;
+      },
+      openModalCrear(){
+         this.$refs.componente.openModal();
       }
     },
     mounted: function(){ 
        this.consultarUsuarios()
     }
-  
 }
 </script>
-
-<style>
-</style>
