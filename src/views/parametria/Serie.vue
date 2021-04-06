@@ -21,7 +21,7 @@
    
     </CCardBody>
     </CCard>
-    <CrearSerie/>
+ 
    
   </div>
 </template>
@@ -29,7 +29,7 @@
 <script>
 import Table from "../../components/Table"
 import serie from "../../clientes/serie"
-import CrearSerie from "./CrearSerie"
+
 export default {
   name: 'Modals',
   components:{
