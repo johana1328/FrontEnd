@@ -22,7 +22,6 @@
               <td>
                 <CButton
                     color="danger"
-                    :name="brandName"
                     size="sm"
                     :key="key"
                     @click="openmodaldelete(item)">
@@ -47,7 +46,7 @@
     >
      <p> Estas seguro de eliminar el registro?</p>
      <template #footer>
-        <CButton @click="warningModal = false" color="primary">Cancelar</CButton>
+        <CButton @click="warningModal = false" color="danger">Cancelar</CButton>
         <CButton @click="deleteClick" color="primary">Aceptar</CButton>
       </template>
     </CModal>  

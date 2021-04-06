@@ -34,6 +34,10 @@ export default{
                 name: 'Solicitud',
                 route: '/solicitud',
                 items:[{
+                     name:'Solicitud Perfil',
+                     to:'/solicitud/SolicitudPersonal'
+                }
+                /*{
                     name:'Permisos',
                      to:'/solicitud/permiso'
                 },
@@ -48,7 +52,8 @@ export default{
                 {
                     name:'Certificaciones',
                     to:'/solicitud/certificaciones'
-                }]
+                }*/
+                ]
             }
             
             let seleccion={
@@ -102,13 +107,13 @@ export default{
                      name:'Usuario',
                      to:'/gestionUsuario/usuario'
                  }
-            let solicitudBusqueda ={
-                     name:'Solicitud Perfil',
-                     to:'/solicitud/SolicitudPersonal'
-            }
+            //let solicitudBusqueda ={
+                     //name:'Solicitud Perfil',
+                     //to:'/solicitud/SolicitudPersonal'
+            //}
 
            if(perfiles.includes('EMPLEADO')){
-                  menunav._children.push(solicitud)
+                 // menunav._children.push(solicitud)
                   menu.push(menunav);
                   return menu;
             }
@@ -121,7 +126,7 @@ export default{
             }
 
             if(perfiles.includes('GERENTE')){
-               solicitud.items.push(solicitudBusqueda)
+               //solicitud.items.push(solicitudBusqueda)
                menunav._children.push(seleccion,solicitud)
                menu.push(menunav)
                return menu;

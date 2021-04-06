@@ -1,59 +1,67 @@
 <template>
   <div class="wrapper">
-    <div>
-   
-        
-    <CButton color="primary" @click="infoModal = true" class="mr-1">
+    <CCard>
+      <CCardHeader>
+        <CCardTitle>
+          Serie
+        </CCardTitle>
+      </CCardHeader>
+    <CCardBody>
+    <CButton color="primary" @click="openModalCrear = true" class="mr-1">
       Nuevo
      </CButton>
-
-    </div>
-    <!-- Modal Component -->
-    <CModal
-      title="Serie"
-      color="primary"
-      :show.sync="infoModal"
-    >
-      <CForm>
-          <CCol sm="10" >
-           <CInput
-                  label="Nombre"
-                  placeholder=""
-                />
-          </CCol>
-             <CTextarea
-                label="Descripción "
-                placeholder="Contetido..."
-                rows="3"
-              />
-                
-      </CForm>
-      <template #footer>
-        <CButton @click=" primaryModal = false" color="danger">Cancelar</CButton>
-        <CButton @click="primaryModal = false" color="primary">Guardar</CButton>
-      </template>
-
-    </CModal>
+        <Table
+          archivo="Reporteserie" 
+          :lista="listaSerie"
+          :warningModal="false"
+          :fields="['id','nombre','descripcion','acciones']"
+          @updateClick="openModalModif" 
+          @deleteClick="eliminarSerie"
+          />
+   
+    </CCardBody>
+    </CCard>
+    <CrearSerie/>
    
   </div>
 </template>
 
 <script>
+import Table from "../../components/Table"
+import serie from "../../clientes/serie"
+import CrearSerie from "./CrearSerie"
 export default {
   name: 'Modals',
+  components:{
+    Table
+  },
   data () {
     return {
-      myModal: false,
-      largeModal: false,
-      smallModal: false,
       primaryModal: false,
-      successModal: false,
-      warningModal: false,
-      dangerModal: false,
       infoModal: false,
-      darkModal: false
+      listaSerie:[]
+    
     }
-  }
+  },
+  methods:{
+     async consultarSerie(){
+        this.listaSerie= await serie.getAllSerie();
+        this.loading = false;
+      },
+      async eliminarSerie(item){
+        alert(JSON.stringify(item))
+         await serie.deleteSerie(item.id);
+         this.listaSerie= await serie.getAllSerie();
+         this.warningModal= false;
+      },
+      openModalCrear(){
+         this.$refs.componente.openModal();
+      }
+
+  },
+   mounted: function(){ 
+       this.consultarSerie()
+    }
 }
 </script>
 

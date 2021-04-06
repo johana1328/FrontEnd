@@ -1,10 +1,10 @@
 <template>
-<CForm>
+  <CForm>
     <CModal title="Crear usuario" color="primary"
-            :show.sync="createUpdateuser">
+            :show.sync="updateuser">
             <CRow > 
                 <CCol sm="6" >
-                    <CInput  label="Id Usuario" placeholder="" v-model="usuarioForm.id" />
+                    <CInput  label="Id Usuario" disabled="true" placeholder="" v-model="usuarioForm.id" />
                     <CInput label="Correo Electronico"  placeholder="" v-model="usuarioForm.correo"/>
                     <CInput label="Area" placeholder="" v-model="usuarioForm.area"/>
                     <CSelect class="col-sm-10" :value.sync='usuarioForm.perfil' label="Perfil" :options="options2"  placeholder="Seleccione"/>      
@@ -13,11 +13,12 @@
                     <CInput label="Nombres" placeholder="" v-model="usuarioForm.nombres"/>
                     <CInput label="Apellidos" placeholder="" v-model="usuarioForm.apellidos" />
                     <CInput label="Jefe" placeholder="" v-model="usuarioForm.jefe" />
+                     <CSelect class="col-sm-10" :value.sync='usuarioForm.estado' label="Estado" :options="options"  placeholder="Seleccione"/>
                   </CCol>
             </CRoW>
               <template #footer>
                 <CButton @click="createUpdateuser=false" color="primary">Cancelar</CButton>
-                <CButton @click="crearUsuario" color="primary">Guardar</CButton>
+                <CButton @click="actualizarUsuario" color="primary">Guardar</CButton>
                
               </template>
     </CModal>
@@ -27,10 +28,11 @@
 <script>
 import usuario from "../../clientes/usuario"
 export default {
- name: 'Crearusuarios',
-    data () {
+    name:'Actualizarusuarios',
+     data () {
         return {
-            options: ['Activo','Desactivo'],
+            options: [{value:'USACT', label:'Activo'},
+                      {value:'USINA' ,label:'Inactivo'}],
             options2: [{value:'ANALISTA_RRHH', label:'Analista RRHH'},
                        {value:'GERENTE_RRHH', label:'Gerente RRHH'},
                        {value:'GERENTE', label:'Gerente'},
@@ -43,20 +45,23 @@ export default {
               correo:'',
               area:'',
               jefe:'',
+              estado:'',
               perfil:''
             },
-            createUpdateuser:false
+            updateuser:false
     }},
-     methods:{
-         async crearUsuario(){
-             await usuario.createUser(this.usuarioForm);
-             this.createUpdateuser=false;
+    methods:{
+        async actualizarUsuario(){
+             await usuario.updateUser(this.usuarioForm.id,this.usuarioForm);
+             this.updateuser=false;
              this.$emit("updateView");
          },
-         openModal(){
-           this.createUpdateuser=true;
-         }
-     }   
+        async openModal(id){
+           this.usuarioForm = await usuario.getUserById(id)
+            this.updateuser=true
+        }
+    }
+
 }
 </script>
 

@@ -12,11 +12,12 @@
           :lista="listaUsuarios"
           :warningModal="false"
           :fields="['nombres','apellidos','correoElectronico','estado','jefe','acciones']"
-          @updateClick="openModalModif"
+          @updateClick="openModalModif" 
           @deleteClick="eliminarUsuario"
           />
     </CCardBody>
     <Crearusuarios  @updateView="consultarUsuarios"   ref="componente" />
+    <ActualizarUsuario @updateView="consultarUsuarios" ref="modificar"    />
    </CCard>
 </template>
 
@@ -24,10 +25,12 @@
 import Table from "../../components/Table"
 import Crearusuarios from './Crearusuarios'
 import usuario from "../../clientes/usuario"
+import ActualizarUsuario from './ActualizarUsuario'
 export default {
    components:{
      Table,
-     Crearusuarios
+     Crearusuarios,
+     ActualizarUsuario
    },
     data () {
         return {
@@ -36,7 +39,7 @@ export default {
     },
     methods:{
       openModalModif(item){
-          alert(item.nombres);
+          this.$refs.modificar.openModal(item.id);
       },
       async consultarUsuarios(){
         this.listaUsuarios= await usuario.getAllUsers();
